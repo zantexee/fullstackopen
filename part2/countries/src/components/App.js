@@ -21,6 +21,10 @@ const App = () => {
     setFilter(event.target.value);
   };
 
+  const handleShow = (event) => {
+    setFilter(event.target.attributes[0].value);
+  };
+
   return (
     <div>
       <div>
@@ -31,7 +35,17 @@ const App = () => {
           ? 'Too many matches, specify another filter'
           : filteredCountries.map((currCountry) => {
               if (filteredCountries.length > 1)
-                return <p>{currCountry.name.common}</p>;
+                return (
+                  <p key={currCountry.name.common}>
+                    {currCountry.name.common}{' '}
+                    <button
+                      data-country={currCountry.name.common}
+                      onClick={handleShow}
+                    >
+                      show
+                    </button>
+                  </p>
+                );
               else return null;
             })}
         {filteredCountries.length === 1 && (
