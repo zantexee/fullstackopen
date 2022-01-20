@@ -6,7 +6,10 @@ const Content = ({ persons, filter }) => {
       {persons
         .filter((person) => person.name.toLowerCase().includes(filter))
         .map((filteredPerson) => (
-          <Person person={filteredPerson} />
+          <Person
+            key={filteredPerson.name.toLowerCase()}
+            person={filteredPerson}
+          />
         ))}
     </div>
   );

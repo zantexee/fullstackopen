@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
 import Content from './components/Content';
@@ -26,7 +25,6 @@ const App = () => {
 
     personService
       .create(personObject)
-
       .then((response) => console.log(response.data));
 
     setPersons(persons.concat(personObject));
