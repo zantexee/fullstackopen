@@ -18,10 +18,28 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    if (persons.some((person) => person.name === newName))
-      return window.alert(`${newName} is already added to phonebook`);
-
     const personObject = { name: newName, number: newNumber };
+
+    const existingPerson = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase(),
+    );
+
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook. Replace with the new entry?`,
+        )
+      ) {
+        const newPersonIndex = persons.findIndex(
+          (currPerson) => currPerson.id === existingPerson.id,
+        );
+        const newPersonArr = persons.slice();
+        newPersonArr[newPersonIndex].number = personObject.number;
+        setPersons(newPersonArr);
+        return personService.update(existingPerson.id, personObject);
+      }
+      return;
+    }
 
     personService
       .create(personObject)
@@ -55,7 +73,7 @@ const App = () => {
         addPerson={addPerson}
       />
       <h2>Numbers</h2>
-      <Content persons={persons} filter={filter} />
+      <Content persons={persons} filter={filter} personsHandler={setPersons} />
     </div>
   );
 };
