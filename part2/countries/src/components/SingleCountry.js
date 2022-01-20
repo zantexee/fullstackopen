@@ -6,11 +6,10 @@ const api_key = process.env.REACT_APP_API_KEY;
 const SingleCountry = ({ country }) => {
   const [weatherData, setWeatherData] = useState('');
 
-  console.log(api_key);
   useEffect(() => {
     axios
       .get(
-        `http://api.openweathermap.org/data/2.5/weather?q=${country.name.common}&appid=${api_key}`,
+        `http://api.openweathermap.org/data/2.5/weather?q=${country.name.common}&appid=${api_key}&units=metric`,
       )
       .then((response) => {
         setWeatherData(response.data);
@@ -39,7 +38,18 @@ const SingleCountry = ({ country }) => {
       />
       <h1>Weather in {country.name.common}</h1>
       <p>
-        <b>temperature: </b>{' '}
+        <b>temperature: </b> {weatherData.main.temp} Celcius
+      </p>
+      <p>
+        {' '}
+        <img
+          src={`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`}
+          alt="Weather Icon"
+        />
+      </p>
+      <p>
+        <b>wind:</b> {weatherData.wind.speeed} km/h direction{' '}
+        {weatherData.wind.deg}
       </p>
     </div>
   );
